@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'components/fab_bottom__bar.dart';
 import 'screens/home_page.dart';
 import 'screens/transactions_page.dart';
 import 'screens/reports_page.dart';
 import 'screens/configuration_page.dart';
 
 void main() {
-  runApp(
-      MaterialApp(
-        title: 'Finanzas Alternativas',
-        theme: ThemeData(
-          primarySwatch: Colors.green,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-        home: MyApp(title: 'Finanzas Alternativas'),
-      )
-  );
+
+  initializeDateFormatting().then((_){
+    runApp(
+        MaterialApp(
+          title: 'Finanzas Alternativas',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+          ),
+          home: MyApp(title: 'Finanzas Alternativas'),
+        )
+    );
+  });
 }
 
 class MyApp extends StatefulWidget {
@@ -38,39 +43,27 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+    /*  appBar: AppBar(
         title: Text(widget.title),
-      ),
+      ),*/
       body: _children[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        selectedItemColor: Theme.of(context).primaryColor,
-        unselectedItemColor: Colors.grey,
-        onTap: (int _index){
+      bottomNavigationBar: FABBottomAppBar(
+        notchedShape: CircularNotchedRectangle(),
+        color: Colors.blueGrey,
+        selectedColor: Theme.of(context).primaryColor,
+        onTabSelected: (int _index){
           setState(() {
             _currentIndex = _index;
           });
         },
         items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text("Inicio")
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            title: Text("Transacciones")
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.pie_chart),
-            title: Text("Informes")
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            title: Text("Configuración")
-          ),
-        ]
+          FABBottomAppBarItem(iconData: Icons.home, text: 'Home'),
+          FABBottomAppBarItem(iconData: Icons.list, text: 'Transactions'),
+          FABBottomAppBarItem(iconData: Icons.pie_chart, text: 'Reports'),
+          FABBottomAppBarItem(iconData: Icons.settings, text: 'Settings'),
+        ],
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: (){},
         tooltip: 'Increment',
