@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:synapseslabs/models/transaction.dart';
+import 'models/app_model.dart';
 import 'components/fab_bottom__bar.dart';
 import 'screens/home_page.dart';
 import 'screens/transactions_page.dart';
@@ -10,13 +14,16 @@ void main() {
 
   initializeDateFormatting().then((_){
     runApp(
-        MaterialApp(
-          title: 'Finanzas Alternativas',
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-            visualDensity: VisualDensity.adaptivePlatformDensity,
+        ChangeNotifierProvider(
+          create: (context) => AppModel(),
+          child: MaterialApp(
+            title: 'Finanzas Alternativas',
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+            ),
+            home: MyApp(title: 'Finanzas Alternativas'),
           ),
-          home: MyApp(title: 'Finanzas Alternativas'),
         )
     );
   });
@@ -65,7 +72,16 @@ class _MyAppState extends State<MyApp> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-        onPressed: (){},
+        onPressed: (){
+          Transaction tx = Transaction();
+          tx.id = 0;
+          tx.detail = "fake";
+          tx.category_id = 0;
+          tx.value = -1300;
+          tx.date = DateTime(2020, 5, 27);
+          tx.account_id = 0;
+          Provider.of<AppModel>(context, listen: false).add(tx);
+        },
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.

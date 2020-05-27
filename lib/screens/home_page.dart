@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:pie_chart/pie_chart.dart';
+import 'package:provider/provider.dart';
+import 'package:synapseslabs/models/app_model.dart';
+import 'package:synapseslabs/services/transaction_service.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class HomePage extends StatefulWidget {
@@ -10,25 +14,44 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   CalendarController calendarController;
-  var width;
-  var height;
+  var width, height;
+
+  /* TODO Meter todo esto en un Utils */
+  DateTime dataAtual = new DateTime.now();
+  DateFormat formatterCalendar = new DateFormat('MM-yyyy');
+
+  TransactionService _transactionService = TransactionService();
+
+  Map<String, double> dataMap = new Map();
+
+  String format(double n) {
+    return n.toStringAsFixed(2);
+  }
+  /* ---- */
+
+  void _allTransactionsByMonth(DateTime date){
+    var formatedDate = formatterCalendar.format(date);
+    _transactionService.fetchTransactionsByDate(formatedDate).then((result){
+      Provider.of<AppModel>(context, listen: false).addAll(result);
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     calendarController = CalendarController();
+    //calendarController.setSelectedDay(DateTime.now()); FIXME
+    //calendarController.setCalendarFormat(CalendarFormat.month); FIXME
+
+    _allTransactionsByMonth(dataAtual);
+
+    dataMap.putIfAbsent("ALGO", () => 0);
   }
 
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
-
-    Map<String, double> dataMap = new Map();
-    dataMap.putIfAbsent("Flutter", () => 5);
-    dataMap.putIfAbsent("React", () => 3);
-    dataMap.putIfAbsent("Xamarin", () => 2);
-    dataMap.putIfAbsent("Ionic", () => 2);
 
     return SingleChildScrollView(
       child: Column(
@@ -55,7 +78,7 @@ class _HomePageState extends State<HomePage> {
                   top: width * 0.15, //70
                   left: width * 0.07, //30,
                   child: Text(
-                    "Monedero",
+                    "Finance Tracker",
                     style: TextStyle(
                         color: Colors.white, fontSize: width * 0.074 //30
                     ),
@@ -103,15 +126,19 @@ class _HomePageState extends State<HomePage> {
                               padding: EdgeInsets.only(left: width * 0.05),
                               child: Container(
                                 width: width * 0.6,
-                                child: Text(
-                                  "118000.00"/*saldoAtual*/,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    color: Colors.lightBlue[700], //Colors.indigo[400],
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: width * 0.1,
-                                    //width * 0.1 //_saldoTamanho(saldoAtual)
-                                  ),
+                                child: Consumer<AppModel>(
+                                  builder: (context, model, child){
+                                    return Text(
+                                      format(model.total).toString(),
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        color: Colors.lightBlue[700], //Colors.indigo[400],
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: width * 0.1,
+                                        //width * 0.1 //_saldoTamanho(saldoAtual)
+                                      ),
+                                    );
+                                  },
                                 ),
                               ),
                             ),
@@ -165,7 +192,13 @@ class _HomePageState extends State<HomePage> {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Text("Ingresos", style: TextStyle(fontSize: 14)),
-                                            Text("\$120.000,00", style: TextStyle(fontSize: 18, color: Colors.green))
+                                            Consumer<AppModel>(
+                                                builder: (context, model, child){
+                                                  return Text("\$${model.income}",
+                                                      style: TextStyle(fontSize: 18, color: Colors.green)
+                                                  );
+                                                }
+                                            )
                                           ],
                                         ),
                                       )
@@ -189,7 +222,13 @@ class _HomePageState extends State<HomePage> {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Text("Egresos", style: TextStyle(fontSize: 14)),
-                                            Text("\$5.000,00", style: TextStyle(fontSize: 18, color: Colors.red))
+                                            Consumer<AppModel>(
+                                                builder: (context, model, child){
+                                                  return Text("\$${model.expenses}",
+                                                      style: TextStyle(fontSize: 18, color: Colors.green)
+                                                  );
+                                                }
+                                            )
                                           ],
                                         ),
                                       )
@@ -223,16 +262,10 @@ class _HomePageState extends State<HomePage> {
               ),
               rowHeight: 0,
               initialCalendarFormat: CalendarFormat.month,
-              /*onVisibleDaysChanged: (dateFirst, dateLast, CalendarFormat cf) {
+              onVisibleDaysChanged: (dateFirst, dateLast, CalendarFormat cf) {
                   print(dateFirst);
-
-                  dataFormatada = formatterCalendar.format(dateFirst);
-                  _allMovMes(dataFormatada);
-
-                  print("DATA FORMATADA CALENDAR $dataFormatada");
-
-                  //print("Data Inicial: $dateFirst ....... Data Final: $dateLast");
-                },*/
+                  _allTransactionsByMonth(dateFirst);
+                },
             ),
             Padding(
               padding: const EdgeInsets.only(left: 20.0, right: 20.0),
