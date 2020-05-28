@@ -10,8 +10,8 @@ class TransactionsPage extends StatelessWidget {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
 
-    return SingleChildScrollView(
-        child: Column(children: <Widget>[
+    return Scaffold(
+        body: Column(children: <Widget>[
            Container(
              padding: EdgeInsets.only(top: 50.0, left: 25.0, bottom: 20.0),
              alignment: Alignment.topLeft,

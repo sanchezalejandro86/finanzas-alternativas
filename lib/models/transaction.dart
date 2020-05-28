@@ -8,15 +8,15 @@ class Transaction{
   String detail;
   int category_id;
   num value;
-  DateTime date;
+  String date;
   int account_id;
 
   Category category;
 
   static final columns = ["id", "detail", "category_id", "value", "date", "account_id"];
 
-  Map toMap(){
-    Map map = {
+  Map<String, dynamic> toMap(){
+    Map <String, dynamic> map = {
       "detail": detail,
       "category_id": category_id,
       "value": value,

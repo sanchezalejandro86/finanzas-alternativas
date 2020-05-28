@@ -18,7 +18,8 @@ class _HomePageState extends State<HomePage> {
 
   /* TODO Meter todo esto en un Utils */
   DateTime dataAtual = new DateTime.now();
-  DateFormat formatterCalendar = new DateFormat('MM-yyyy');
+  //DateFormat formatterCalendar = new DateFormat('MM-yyyy');
+  DateFormat formatterCalendar = new DateFormat('yyyy-MM');
 
   TransactionService _transactionService = TransactionService();
 

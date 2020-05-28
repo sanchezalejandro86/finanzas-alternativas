@@ -3,6 +3,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:synapseslabs/models/transaction.dart';
+import 'package:synapseslabs/screens/add_transaction.dart';
 import 'models/app_model.dart';
 import 'components/fab_bottom__bar.dart';
 import 'screens/home_page.dart';
@@ -73,6 +74,7 @@ class _MyAppState extends State<MyApp> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: (){
+          /*
           Transaction tx = Transaction();
           tx.id = 0;
           tx.detail = "fake";
@@ -81,6 +83,8 @@ class _MyAppState extends State<MyApp> {
           tx.date = DateTime(2020, 5, 27);
           tx.account_id = 0;
           Provider.of<AppModel>(context, listen: false).add(tx);
+          */
+          Navigator.push(context, MaterialPageRoute(builder: (context) => AddTransactionPage()));
         },
         tooltip: 'Increment',
         child: Icon(Icons.add),

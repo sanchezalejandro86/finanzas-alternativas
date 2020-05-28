@@ -55,6 +55,14 @@ class DatabaseClient{
             )
         """);
 
+    // Insert Categories
+    await db.insert("categories",
+            {
+              "id": 0,
+              "name": "dummy",
+              "type": 2
+            }
+            );
   }
 
 }
