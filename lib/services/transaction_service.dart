@@ -25,7 +25,7 @@ class TransactionService {
     results.forEach((result) async{
       Transaction tx = Transaction.fromMap(result);
 
-      tx.category = await _categoryService.fetchCategory(tx.category_id);
+      //tx.category = await _categoryService.fetchCategory(tx.category_id);
 
       txs.add(tx);
     });
