@@ -13,7 +13,17 @@ import 'screens/transactions_page.dart';
 void main() {
   initializeDateFormatting().then((_) {
     runApp(ChangeNotifierProvider(
-        create: (context) => AppModel(), child: MyApp()));
+        create: (context) => AppModel(),
+        child: MaterialApp(
+            title: "Finance Tracker",
+            theme: ThemeData(
+              primaryColor: Color(0xFF7060FC),
+              accentColor: Color(0xFF7060FC),
+            ),
+            home: MyApp()
+          )
+        ),
+      );
   });
 }
 
@@ -37,13 +47,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Finance Tracker',
-        theme: ThemeData(
-          primaryColor: Color(0xFF7060FC),
-          accentColor: Color(0xFF7060FC),
-        ),
-        home: Scaffold(
+    return Scaffold(
           body: _children[_currentIndex],
           bottomNavigationBar: FABBottomAppBar(
             notchedShape: CircularNotchedRectangle(),
@@ -73,7 +77,6 @@ class _MyAppState extends State<MyApp> {
             tooltip: 'Add Transaction',
             child: Icon(Icons.add),
           ), // This trailing comma makes auto-formatting nicer for build methods.
-        )
-    );
+        );
   }
 }

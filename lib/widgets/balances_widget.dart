@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:synapseslabs/components/expense_icon.dart';
+import 'package:synapseslabs/components/income_icon.dart';
 import 'package:synapseslabs/models/app_model.dart';
 
 class BalancesWidget extends StatelessWidget {
@@ -109,23 +111,7 @@ class BalancesWidget extends StatelessWidget {
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          Container(
-                            height: 36.0,
-                            width: 36.0,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(20)),
-                              color: Colors.green,
-                              boxShadow:  [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 1,
-                                  blurRadius: 7,
-                                  offset: Offset(0, 3), // changes position of shadow
-                                ),
-                              ],
-                            ),
-                            child: Icon(Icons.arrow_upward, size: 24, color: Colors.white,),
-                          ),
+                          IncomeIcon(),
                           SizedBox(
                             width: 8.0,
                           ),
@@ -148,23 +134,7 @@ class BalancesWidget extends StatelessWidget {
                         margin: EdgeInsets.only(right: 25.0),
                         child: Row(
                           children: <Widget>[
-                            Container(
-                              height: 36.0,
-                              width: 36.0,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(20)),
-                                color: Colors.red,
-                                boxShadow:  [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 1,
-                                    blurRadius: 7,
-                                    offset: Offset(0, 3), // changes position of shadow
-                                  ),
-                                ],
-                              ),
-                              child: Icon(Icons.arrow_downward, size: 24, color: Colors.white,),
-                            ),
+                            ExpenseIcon(),
                             SizedBox(
                               width: 8.0,
                             ),
