@@ -37,61 +37,38 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
     height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text("New Expense"),
+        elevation: 0.0,
+        backgroundColor: Colors.red,
+      ),
       body: Column(
           children: <Widget>[
               Container(
-                padding: EdgeInsets.only(top: 50.0, left: 5.0, bottom: 20.0),
+                padding: EdgeInsets.only(top: 20.0, left: 20.0, bottom: 10.0),
                 alignment: Alignment.topLeft,
                 color: Colors.red,
                 child:
-                    Padding(
-                      padding: const EdgeInsets.only(left: 00.0),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(right: 15.0),
-                                child: BackButton(color: Colors.white,),
-                              ),
-                              Text("New Expense", style: TextStyle(color: Colors.white, fontSize: width * 0.05)),
-                            ],
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Total expense", style: TextStyle(color: Colors.white, fontSize: width * 0.04)),
+                        TextField(
+                          decoration: InputDecoration(
+                              hintText: "\$0.00",
+                              hintStyle: TextStyle(fontSize: 40.0, color: Colors.white),
+                              border: InputBorder.none
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 15.0, top: 20.0),
-                            child: Row(
-                                children: [
-                                  Text("Total expense", style: TextStyle(color: Colors.white, fontSize: width * 0.04)),
-                                ]
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 15.0),
-                            child: Row(
-                                children: [
-                                  Expanded(
-                                    child: TextField(
-                                      decoration: InputDecoration(
-                                          hintText: "\$0.00",
-                                          hintStyle: TextStyle(fontSize: 40.0, color: Colors.white),
-                                          border: InputBorder.none
-                                      ),
-                                      keyboardType: TextInputType.number,
-                                      style: TextStyle(color: Colors.white, fontSize: 40.0),
-                                      autofocus: true,
-                                      controller: amountController,
-                                    ),
-                                  ),
-                                ],
-                            ),
-                          ),
-                        ],
-                      ),
+                          keyboardType: TextInputType.number,
+                          style: TextStyle(color: Colors.white, fontSize: 40.0),
+                          autofocus: true,
+                          controller: amountController,
+                        ),
+                      ],
                     )
               ),
-            Padding(
-              padding: const EdgeInsets.all(15.0),
+            Container(
+              padding: EdgeInsets.all(15.0),
               child: Column(
                 children: <Widget>[
                   TextField(
@@ -101,15 +78,14 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                     ),
                     controller: detailController,
                   ),
-                  DropdownButton(
+                  DropdownButtonFormField(
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.all(20.0)
+                    ),
                     value: "One",
                     icon: Icon(Icons.arrow_downward),
                     iconSize: 24,
                     elevation: 16,
-                    underline: Container(
-                      height: 2,
-                      color: Colors.grey,
-                    ),
                     onChanged: (String newValue) {
                     },
                     items: <String>['One', 'Two', 'Free', 'Four']
