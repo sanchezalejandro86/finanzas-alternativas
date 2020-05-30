@@ -37,6 +37,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
     height = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      appBar: AppBar(),
       body: Column(
           children: <Widget>[
               Container(
